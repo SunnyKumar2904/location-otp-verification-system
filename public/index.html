@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Location-Based OTP System</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #3a7bd5, #3a6073);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin: 10px 0 5px;
+    }
+
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00c6ff;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0072ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>OTP Verification</h1>
+
+  <div class="container">
+    <h2>📤 Send OTP</h2>
+    <form id="sendForm">
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" placeholder="+911234567890" required />
+      
+      <label for="lat">Latitude</label>
+      <input type="text" id="lat" placeholder="e.g., 28.6139" required />
+
+      <label for="lng">Longitude</label>
+      <input type="text" id="lng" placeholder="e.g., 77.2090" required />
+
+      <button type="submit">Send OTP</button>
+    </form>
+  </div>
+
+  <div class="container">
+    <h2>✅ Verify OTP</h2>
+    <form id="verifyForm">
+      <label for="vphone">Phone Number</label>
+      <input type="text" id="vphone" required />
+
+      <label for="otp">OTP</label>
+      <input type="text" id="otp" required />
+
+      <label for="clat">Current Latitude</label>
+      <input type="text" id="clat" required />
+
+      <label for="clng">Current Longitude</label>
+      <input type="text" id="clng" required />
+
+      <button type="submit">Verify OTP</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("sendForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const res = await fetch("/api/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: document.getElementById("phone").value,
+          lat: document.getElementById("lat").value,
+          lng: document.getElementById("lng").value,
+        }),
+      });
+      alert(await res.text());
+    };
+
+    document.getElementById("verifyForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const res = await fetch("/api/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: document.getElementById("vphone").value,
+          otp: document.getElementById("otp").value,
+          current_lat: document.getElementById("clat").value,
+          current_lng: document.getElementById("clng").value,
+        }),
+      });
+      alert(await res.text());
+    };
+  </script>
+</body>
+</html>
