@@ -91,16 +91,3 @@ Edit
 
 ---
 
-## ✅ Next Steps:
-
-- ✍️ Save this content as `README.md` in the root folder
-- 📤 Then run:
-
-```bash
-git add README.md
-git commit -m "Add professional README"
-git push
-Your GitHub will now look polished and ready for HR or recruiters.
-
-Would you like help with deployment next? (e.g., Render, Railway, or Vercel for frontend + backend)
-
